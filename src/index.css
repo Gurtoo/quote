@@ -37,3 +37,15 @@
 .cdx-quote-settings .cdx-settings-button {
   width: 50%;
 }
+
+.cdx-block .cdx-quote .cdx-quote--left .cdx-input .cdx-quote__text {
+    text-align: left;
+}
+
+.cdx-block .cdx-quote .cdx-quote--center .cdx-input .cdx-quote__text {
+    text-align: center;
+}
+
+.cdx-block .cdx-quote .cdx-quote--right .cdx-input .cdx-quote__text {
+    text-align: right;
+}

@@ -3,7 +3,7 @@
  */
 import './index.css';
 
-import { IconAlignLeft, IconAlignCenter, IconQuote } from '@codexteam/icons';
+import { IconAlignCenter, IconAlignLeft, IconAlignRight, IconQuote } from '@codexteam/icons';
 
 /**
  * @class Quote
@@ -31,280 +31,317 @@ import { IconAlignLeft, IconAlignCenter, IconQuote } from '@codexteam/icons';
  * @property {() => void} onActivate - item activation callback
  */
 export default class Quote {
-  /**
-   * Notify core that read-only mode is supported
-   *
-   * @returns {boolean}
-   */
-  static get isReadOnlySupported() {
-    return true;
-  }
+	/**
+	 * Notify core that read-only mode is supported
+	 *
+	 * @returns {boolean}
+	 */
+	static get isReadOnlySupported() {
+		return true;
+	}
 
-  /**
-   * Get Tool toolbox settings
-   * icon - Tool icon's SVG
-   * title - title to show in toolbox
-   *
-   * @returns {{icon: string, title: string}}
-   */
-  static get toolbox() {
-    return {
-      icon: IconQuote,
-      title: 'Quote',
-    };
-  }
+	/**
+	 * Get Tool toolbox settings
+	 * icon - Tool icon's SVG
+	 * title - title to show in toolbox
+	 *
+	 * @returns {{icon: string, title: string}}
+	 */
+	static get toolbox() {
+		return {
+			icon: IconQuote,
+			title: 'Quote',
+		};
+	}
 
-  /**
-   * Empty Quote is not empty Block
-   *
-   * @public
-   * @returns {boolean}
-   */
-  static get contentless() {
-    return true;
-  }
+	/**
+	 * Empty Quote is not empty Block
+	 *
+	 * @public
+	 * @returns {boolean}
+	 */
+	static get contentless() {
+		return true;
+	}
 
-  /**
-   * Allow to press Enter inside the Quote
-   *
-   * @public
-   * @returns {boolean}
-   */
-  static get enableLineBreaks() {
-    return true;
-  }
+	/**
+	 * Allow to press Enter inside the Quote
+	 *
+	 * @public
+	 * @returns {boolean}
+	 */
+	static get enableLineBreaks() {
+		return true;
+	}
 
-  /**
-   * Default placeholder for quote text
-   *
-   * @public
-   * @returns {string}
-   */
-  static get DEFAULT_QUOTE_PLACEHOLDER() {
-    return 'Enter a quote';
-  }
+	/**
+	 * Default placeholder for quote text
+	 *
+	 * @public
+	 * @returns {string}
+	 */
+	static get DEFAULT_QUOTE_PLACEHOLDER() {
+		return 'Enter a quote';
+	}
 
-  /**
-   * Default placeholder for quote caption
-   *
-   * @public
-   * @returns {string}
-   */
-  static get DEFAULT_CAPTION_PLACEHOLDER() {
-    return 'Enter a caption';
-  }
+	/**
+	 * Default placeholder for quote caption
+	 *
+	 * @public
+	 * @returns {string}
+	 */
+	static get DEFAULT_CAPTION_PLACEHOLDER() {
+		return 'Enter a caption';
+	}
 
-  /**
-   * Allowed quote alignments
-   *
-   * @public
-   * @returns {{left: string, center: string}}
-   */
-  static get ALIGNMENTS() {
-    return {
-      left: 'left',
-      center: 'center',
-    };
-  }
+	/**
+	 * Allowed quote alignments
+	 *
+	 * @public
+	 * @returns {{left: string, center: string}}
+	 */
+	static get ALIGNMENTS() {
+		return {
+			left: 'left',
+			center: 'center',
+		};
+	}
 
-  /**
-   * Default quote alignment
-   *
-   * @public
-   * @returns {string}
-   */
-  static get DEFAULT_ALIGNMENT() {
-    return Quote.ALIGNMENTS.left;
-  }
+	/**
+	 * Default quote alignment
+	 *
+	 * @public
+	 * @returns {string}
+	 */
+	static get DEFAULT_ALIGNMENT() {
+		return Quote.ALIGNMENTS.left;
+	}
 
-  /**
-   * Allow Quote to be converted to/from other blocks
-   */
-  static get conversionConfig() {
-    return {
-      /**
-       * To create Quote data from string, simple fill 'text' property
-       */
-      import: 'text',
-      /**
-       * To create string from Quote data, concatenate text and caption
-       *
-       * @param {QuoteData} quoteData
-       * @returns {string}
-       */
-      export: function (quoteData) {
-        return quoteData.caption ? `${quoteData.text} — ${quoteData.caption}` : quoteData.text;
-      },
-    };
-  }
+	/**
+	 * Allow Quote to be converted to/from other blocks
+	 */
+	static get conversionConfig() {
+		return {
+			/**
+			 * To create Quote data from string, simple fill 'text' property
+			 */
+			import: 'text',
+			/**
+			 * To create string from Quote data, concatenate text and caption
+			 *
+			 * @param {QuoteData} quoteData
+			 * @returns {string}
+			 */
+			export: function (quoteData) {
+				return quoteData.caption ? `${quoteData.text} — ${quoteData.caption}` : quoteData.text;
+			},
+		};
+	}
 
-  /**
-   * Tool`s styles
-   *
-   * @returns {{baseClass: string, wrapper: string, quote: string, input: string, caption: string}}
-   */
-  get CSS() {
-    return {
-      baseClass: this.api.styles.block,
-      wrapper: 'cdx-quote',
-      text: 'cdx-quote__text',
-      input: this.api.styles.input,
-      caption: 'cdx-quote__caption',
-    };
-  }
+	/**
+	 * Tool`s styles
+	 *
+	 * @returns {{baseClass: string, wrapper: string, quote: string, input: string, caption: string}}
+	 */
+	get CSS() {
+		return {
+			baseClass: this.api.styles.block,
+			wrapper: 'cdx-quote',
+			text: 'cdx-quote__text',
+			input: this.api.styles.input,
+			caption: 'cdx-quote__caption',
+		};
+	}
 
-  /**
-   * Tool`s settings properties
-   *
-   * @returns {*[]}
-   */
-  get settings() {
-    return [
-      {
-        name: 'left',
-        icon: IconAlignLeft,
-      },
-      {
-        name: 'center',
-        icon: IconAlignCenter,
-      },
-    ];
-  }
+	/**
+	 * Tool`s settings properties
+	 *
+	 * @returns {*[]}
+	 */
+	get settings() {
+		return [
+			{
+				name: 'left',
+				icon: IconAlignLeft,
+			},
+			{
+				name: 'center',
+				icon: IconAlignCenter,
+			},
+			{
+				name: 'right',
+				icon: IconAlignRight,
+			},
+		];
+	}
 
-  /**
-   * Render plugin`s main Element and fill it with saved data
-   *
-   * @param {{data: QuoteData, config: QuoteConfig, api: object}}
-   *   data — previously saved data
-   *   config - user config for Tool
-   *   api - Editor.js API
-   *   readOnly - read-only mode flag
-   */
-  constructor({ data, config, api, readOnly }) {
-    const { ALIGNMENTS, DEFAULT_ALIGNMENT } = Quote;
+	/**
+	 * Render plugin`s main Element and fill it with saved data
+	 *
+	 * @param {{data: QuoteData, config: QuoteConfig, api: object}}
+	 *   data — previously saved data
+	 *   config - user config for Tool
+	 *   api - Editor.js API
+	 *   readOnly - read-only mode flag
+	 */
+	constructor({ data, config, api, readOnly }) {
+		const { ALIGNMENTS, DEFAULT_ALIGNMENT } = Quote;
 
-    this.api = api;
-    this.readOnly = readOnly;
+		this.api = api;
+		this.readOnly = readOnly;
 
-    this.quotePlaceholder = config.quotePlaceholder || Quote.DEFAULT_QUOTE_PLACEHOLDER;
-    this.captionPlaceholder = config.captionPlaceholder || Quote.DEFAULT_CAPTION_PLACEHOLDER;
+		this.renderedElement = null;
 
-    this.data = {
-      text: data.text || '',
-      caption: data.caption || '',
-      alignment: Object.values(ALIGNMENTS).includes(data.alignment) && data.alignment ||
-      config.defaultAlignment ||
-      DEFAULT_ALIGNMENT,
-    };
-  }
+		this.quotePlaceholder = config.quotePlaceholder || Quote.DEFAULT_QUOTE_PLACEHOLDER;
+		this.captionPlaceholder = config.captionPlaceholder || Quote.DEFAULT_CAPTION_PLACEHOLDER;
 
-  /**
-   * Create Quote Tool container with inputs
-   *
-   * @returns {Element}
-   */
-  render() {
-    const container = this._make('blockquote', [this.CSS.baseClass, this.CSS.wrapper]);
-    const quote = this._make('div', [this.CSS.input, this.CSS.text], {
-      contentEditable: !this.readOnly,
-      innerHTML: this.data.text,
-    });
-    const caption = this._make('div', [this.CSS.input, this.CSS.caption], {
-      contentEditable: !this.readOnly,
-      innerHTML: this.data.caption,
-    });
+		this.data = {
+			text: data.text || '',
+			caption: data.caption || '',
+			alignment: Object.values(ALIGNMENTS).includes(data.alignment) && data.alignment ||
+				config.defaultAlignment ||
+				DEFAULT_ALIGNMENT,
+		};
+	}
 
-    quote.dataset.placeholder = this.quotePlaceholder;
-    caption.dataset.placeholder = this.captionPlaceholder;
+	handlePaste(event) {
+		event.preventDefault();
+		const text = event.clipboardData.getData('text/plain');
+		this.data.text = text;
 
-    container.appendChild(quote);
-    container.appendChild(caption);
+		// paste work by div
+		const quote = this.renderedElement.querySelector(`.${this.CSS.text}`);
+		if (quote) {
+			quote.innerText = text;
+		}
 
-    return container;
-  }
+		// Remove duplicate text outside the quote
+		const outsideText = this.renderedElement.innerText.replace(text, '');
+		if (outsideText) {
+			event.target.innerHTML = outsideText;
+		}
+	}
 
-  /**
-   * Extract Quote data from Quote Tool element
-   *
-   * @param {HTMLDivElement} quoteElement - element to save
-   * @returns {QuoteData}
-   */
-  save(quoteElement) {
-    const text = quoteElement.querySelector(`.${this.CSS.text}`);
-    const caption = quoteElement.querySelector(`.${this.CSS.caption}`);
+	/**
+	 * Create Quote Tool container with inputs
+	 *
+	 * @returns {Element}
+	 */
+	render() {
+		const container = this._make('blockquote', [this.CSS.baseClass, this.CSS.wrapper]);
 
-    return Object.assign(this.data, {
-      text: text.innerHTML,
-      caption: caption.innerHTML,
-    });
-  }
+		this.renderedElement = container;
 
-  /**
-   * Sanitizer rules
-   */
-  static get sanitize() {
-    return {
-      text: {
-        br: true,
-      },
-      caption: {
-        br: true,
-      },
-      alignment: {},
-    };
-  }
+		const quote = this._make('div', [this.CSS.input, this.CSS.text], {
+			contentEditable: !this.readOnly,
+			innerHTML: this.data.text,
+		});
 
-  /**
-   * Create wrapper for Tool`s settings buttons:
-   * 1. Left alignment
-   * 2. Center alignment
-   *
-   * @returns {TunesMenuConfig}
-   *
-   */
-  renderSettings() {
-    const capitalize = str => str[0].toUpperCase() + str.substr(1);
+		const caption = this._make('div', [this.CSS.input, this.CSS.caption], {
+			contentEditable: !this.readOnly,
+			innerHTML: this.data.caption,
+		});
 
-    return this.settings.map(item => ({
-      icon: item.icon,
-      label: this.api.i18n.t(`Align ${capitalize(item.name)}`),
-      onActivate: () => this._toggleTune(item.name),
-      isActive: this.data.alignment === item.name,
-      closeOnActivate: true,
-    }));
-  };
+		this.api.listeners.on(this.renderedElement, 'paste', (event) => this.handlePaste(event));
 
-  /**
-   * Toggle quote`s alignment
-   *
-   * @param {string} tune - alignment
-   * @private
-   */
-  _toggleTune(tune) {
-    this.data.alignment = tune;
-  }
+		quote.dataset.placeholder = this.quotePlaceholder;
+		caption.dataset.placeholder = this.captionPlaceholder;
 
-  /**
-   * Helper for making Elements with attributes
-   *
-   * @param  {string} tagName           - new Element tag name
-   * @param  {Array|string} classNames  - list or name of CSS classname(s)
-   * @param  {object} attributes        - any attributes
-   * @returns {Element}
-   */
-  _make(tagName, classNames = null, attributes = {}) {
-    const el = document.createElement(tagName);
+		container.appendChild(quote);
+		container.appendChild(caption);
 
-    if (Array.isArray(classNames)) {
-      el.classList.add(...classNames);
-    } else if (classNames) {
-      el.classList.add(classNames);
-    }
+		// Проставляем стили выравнивания
+		container.classList.add(this.getAlignmentClassName());
 
-    for (const attrName in attributes) {
-      el[attrName] = attributes[attrName];
-    }
+		return container;
+	}
 
-    return el;
-  }
+	getAlignmentClassName() {
+		return this.CSS.wrapper + '--' + this.data.alignment;
+	}
+
+	/**
+	 * Extract Quote data from Quote Tool element
+	 *
+	 * @param {HTMLDivElement} quoteElement - element to save
+	 * @returns {QuoteData}
+	 */
+	save(quoteElement) {
+		const text = quoteElement.querySelector(`.${this.CSS.text}`).textContent;
+		const caption = quoteElement.querySelector(`.${this.CSS.caption}`).innerHTML;
+
+		return Object.assign(this.data, {
+			text: text,
+			caption: caption,
+		});
+	}
+
+	/**
+	 * Sanitizer rules
+	 */
+	static get sanitize() {
+		return {
+			text: {
+				br: true,
+			},
+			caption: {
+				br: true,
+			},
+			alignment: {},
+		};
+	}
+
+	/**
+	 * Create wrapper for Tool`s settings buttons:
+	 * 1. Left alignment
+	 * 2. Center alignment
+	 *
+	 * @returns {TunesMenuConfig}
+	 *
+	 */
+	// renderSettings() {
+	// 	const capitalize = str => str[0].toUpperCase() + str.substr(1);
+	//
+	// 	return this.settings.map(item => ({
+	// 		icon: item.icon,
+	// 		label: this.api.i18n.t(`Align ${capitalize(item.name)}`),
+	// 		onActivate: () => this._toggleTune(item.name),
+	// 		isActive: this.data.alignment === item.name,
+	// 		closeOnActivate: true,
+	// 	}));
+	// };
+
+	/**
+	 * Toggle quote`s alignment
+	 *
+	 * @param {string} tune - alignment
+	 * @private
+	 */
+	_toggleTune(tune) {
+		this.data.alignment = tune;
+	}
+
+	/**
+	 * Helper for making Elements with attributes
+	 *
+	 * @param  {string} tagName           - new Element tag name
+	 * @param  {Array|string} classNames  - list or name of CSS classname(s)
+	 * @param  {object} attributes        - any attributes
+	 * @returns {Element}
+	 */
+	_make(tagName, classNames = null, attributes = {}) {
+		const el = document.createElement(tagName);
+
+		if (Array.isArray(classNames)) {
+			el.classList.add(...classNames);
+		} else if (classNames) {
+			el.classList.add(classNames);
+		}
+
+		for (const attrName in attributes) {
+			el[attrName] = attributes[attrName];
+		}
+
+		return el;
+	}
 }
