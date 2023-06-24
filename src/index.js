@@ -1,7 +1,7 @@
 /**
  * Build styles
  */
-// import './index.css';
+import './index.css';
 
 import { IconAlignCenter, IconAlignLeft, IconAlignRight, IconQuote } from '@codexteam/icons';
 
