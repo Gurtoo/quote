@@ -1,7 +1,7 @@
 /**
  * Build styles
  */
-import './index.css';
+// import './index.css';
 
 import { IconAlignCenter, IconAlignLeft, IconAlignRight, IconQuote } from '@codexteam/icons';
 
@@ -206,20 +206,8 @@ export default class Quote {
 
 	handlePaste(event) {
 		event.preventDefault();
-		const text = event.clipboardData.getData('text/plain');
-		this.data.text = text;
-
-		// paste work by div
-		const quote = this.renderedElement.querySelector(`.${this.CSS.text}`);
-		if (quote) {
-			quote.innerText = text;
-		}
-
-		// Remove duplicate text outside the quote
-		const outsideText = this.renderedElement.innerText.replace(text, '');
-		if (outsideText) {
-			event.target.innerHTML = outsideText;
-		}
+		const pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
+		document.execCommand('insertText', false, pastedText);
 	}
 
 	/**
