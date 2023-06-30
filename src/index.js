@@ -204,9 +204,16 @@ export default class Quote {
 		};
 	}
 
+	static get pasteConfig() {
+		return false;
+	}
+
 	handlePaste(event) {
 		event.preventDefault();
 		const pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
+
+		if (!pastedText.match(/\n/)) return;
+
 		document.execCommand('insertText', false, pastedText);
 	}
 
@@ -220,17 +227,17 @@ export default class Quote {
 
 		this.renderedElement = container;
 
-		const quote = this._make('div', [this.CSS.input, this.CSS.text], {
+		const quote = this._make('p', [this.CSS.input, this.CSS.text], {
 			contentEditable: !this.readOnly,
 			innerHTML: this.data.text,
 		});
 
-		const caption = this._make('div', [this.CSS.input, this.CSS.caption], {
+		const caption = this._make('p', [this.CSS.input, this.CSS.caption], {
 			contentEditable: !this.readOnly,
 			innerHTML: this.data.caption,
 		});
 
-		this.api.listeners.on(this.renderedElement, 'paste', (event) => this.handlePaste(event));
+		this.api.listeners.on(container, 'paste', (event) => this.handlePaste(event));
 
 		quote.dataset.placeholder = this.quotePlaceholder;
 		caption.dataset.placeholder = this.captionPlaceholder;
