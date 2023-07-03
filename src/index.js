@@ -212,8 +212,6 @@ export default class Quote {
 		event.preventDefault();
 		const pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
 
-		if (!pastedText.match(/\n/)) return;
-
 		document.execCommand('insertText', false, pastedText);
 	}
 
