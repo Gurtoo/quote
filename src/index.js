@@ -208,12 +208,14 @@ export default class Quote {
 		return false;
 	}
 
-	handlePaste(event) {
-		event.preventDefault();
-		const pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
-
-		document.execCommand('insertText', false, pastedText);
-	}
+	// handlePaste(event) {
+	//   event.preventDefault();
+	//   const pastedText = (event.originalEvent || event).clipboardData.getData('text/plain');
+	//
+	//   console.log(pastedText, event, 'past')
+	//
+	//   document.execCommand('insertText', false, pastedText);
+	// }
 
 	/**
 	 * Create Quote Tool container with inputs
@@ -235,7 +237,7 @@ export default class Quote {
 			innerHTML: this.data.caption,
 		});
 
-		this.api.listeners.on(container, 'paste', (event) => this.handlePaste(event));
+		// this.api.listeners.on(container, 'paste', (event) => this.handlePaste(event));
 
 		quote.dataset.placeholder = this.quotePlaceholder;
 		caption.dataset.placeholder = this.captionPlaceholder;
